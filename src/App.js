@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import Counter from "./components/Counter";
 import ClassCounter from "./components/ClassCounter";
 import './styles/App.css'
@@ -16,8 +16,10 @@ function App() {
     ])
 
     const [title, setTitle] = useState('')
+    const bodyInputRef = useRef()
     const addNewPost = (e) => {
         e.preventDefault()
+        console.log(bodyInputRef.current.value)
     }
 
     return (
@@ -29,7 +31,11 @@ function App() {
                     type="text"
                     placeholder='Название поста'
                 />
-                <MyInput type="text" placeholder='Описание поста'/>
+                {/*<input ref={bodyInputRef}  type="text"/>*/}
+                <MyInput
+                    ref = {bodyInputRef}
+                    type="text"
+                    placeholder='Описание поста'/>
                 <MyButton onClick={addNewPost}>Создать пост</MyButton>
             </form>
             <PostList posts={posts} title='Список постов'/>
