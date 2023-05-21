@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useMemo, useRef, useState} from "react";
 import Counter from "./components/Counter";
 import ClassCounter from "./components/ClassCounter";
 import './styles/App.css'
@@ -20,14 +20,16 @@ function App() {
     const [selectedSort, setSelectedSort] = useState('')
     const [searchQuery, setSearchQuery] = useState('')
 
-    function getSortedPosts() {
+    const sortedPosts = useMemo(() => {
         if (selectedSort) {
             return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
         }
         return posts;
-    }
+    }, [selectedSort, posts])
 
-    const sortedPosts = getSortedPosts()
+    const sortedAndSearchedPosts = useMemo(() => {
+        return sortedPosts.filter(post => post.title.toLowerCase().includes(searchQuery))
+    }, [searchQuery, sortedPosts])
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
@@ -63,11 +65,11 @@ function App() {
                 />
             </div>
             {/*{posts.length !== 0*/}
-            {posts.length
-                ? <PostList remove={removePost} posts={sortedPosts} title='Список постов'/>
+            {sortedAndSearchedPosts.length
+                ? <PostList remove={removePost} posts={sortedAndSearchedPosts} title='Список постов'/>
                 :
                 <h1 style={{textAlign: 'center'}}>
-                    Посты не были найдены
+                    Посты не найдены
                 </h1>
             }
 
