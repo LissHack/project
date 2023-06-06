@@ -31,7 +31,7 @@ function App() {
 
     useEffect(() => {
         fetchPosts()
-    }, [])
+    }, [page])
 
     const createPost = (newPost) => {
         setPosts([...posts, newPost])
@@ -40,6 +40,10 @@ function App() {
 
     const removePost = (post) => {
         setPosts(posts.filter(p => p.id !== post.id))
+    }
+
+    const changePage = (page) => {
+        setPage(page)
     }
 
     return (
@@ -62,6 +66,17 @@ function App() {
                 ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
                 : <PostList remove={removePost} posts={sortedAndSearchedPosts} title='Список постов'/>
             }
+            <div className='page__wrapper'>
+                {pagesArray.map(p =>
+                    <span
+                        onClick={() => changePage(p)}
+                        key={p}
+                        className={page === p ? 'page page__current' : 'page'}
+                    >
+                        {p}
+                    </span>
+                )}
+            </div>
         </div>
     );
 }
