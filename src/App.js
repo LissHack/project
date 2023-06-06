@@ -47,6 +47,9 @@ function App() {
                 filter={filter}
                 setFilter={setFilter}
             />
+            {postError &&
+                <h1>Произошла ошибка ${postError}</h1>
+            }
             {isPostsLoading
                 ? <div style={{display: 'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
                 : <PostList remove={removePost} posts={sortedAndSearchedPosts} title='Список постов'/>
