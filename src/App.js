@@ -4,6 +4,7 @@ import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import About from "./pages/About";
 import Posts from "./pages/Posts";
 import Navbar from "./components/UI/Navbar/Navbar";
+import Error from "./pages/Error";
 
 function App() {
     return (
@@ -19,8 +20,12 @@ function App() {
                     element={<Posts/>}
                 />
                 <Route
-                    path="/*"
-                    element={<Navigate to="/error"/>}
+                    path="/error"
+                    element={<Error/>}
+                />
+                <Route
+                    path="*"
+                    element={<Navigate to='/error'/>}
                 />
             </Routes>
         </BrowserRouter>
